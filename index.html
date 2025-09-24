@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aparna R - Software Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Phosphor Icons for a clean, professional look -->
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/dist/phosphor.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1f2937 0%, #000000 100%);
+            color: #f8fafc;
+        }
+
+        .card-base {
+            background-color: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease-in-out;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 15px rgba(56, 189, 248, 0.5);
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        
+        .modal-backdrop {
+            transition: opacity 0.3s ease-in-out;
+            background: rgba(0, 0, 0, 0.6);
+        }
+        .modal-content {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-left-color: #3b82f6;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+        .pulse-animation {
+            animation: pulse 2s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="text-white sticky top-0 z-50 shadow-md bg-slate-800 bg-opacity-70 backdrop-blur-md">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="text-xl font-bold">Aparna R</div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#home" class="hover:text-sky-300 transition-colors duration-300">Home</a>
+                <a href="#impact" class="hover:text-sky-300 transition-colors duration-300">Impact</a>
+                <a href="#experience" class="hover:text-sky-300 transition-colors duration-300">Experience</a>
+                <a href="#skills" class="hover:text-sky-300 transition-colors duration-300">Skills</a>
+                <a href="#projects" class="hover:text-sky-300 transition-colors duration-300">Projects</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden focus:outline-none">
+                <i class="ph ph-list text-2xl"></i>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 space-y-2 bg-slate-800 bg-opacity-90">
+            <a href="#home" class="block hover:text-sky-300 transition-colors duration-300">Home</a>
+            <a href="#impact" class="block hover:text-sky-300 transition-colors duration-300">Impact</a>
+            <a href="#experience" class="block hover:text-sky-300 transition-colors duration-300">Experience</a>
+            <a href="#skills" class="block hover:text-sky-300 transition-colors duration-300">Skills</a>
+            <a href="#projects" class="block hover:text-sky-300 transition-colors duration-300">Projects</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="py-20 md:py-32 relative overflow-hidden">
+            <div class="absolute inset-0 bg-cover bg-center opacity-10 z-0"></div>
+            <div class="container mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center justify-center text-center md:text-left gap-12">
+                <div class="mb-8 md:mb-0 max-w-lg">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-4 text-white">Aparna R</h1>
+                    <p class="text-lg md:text-2xl text-slate-300 mb-8 max-w-3xl mx-auto md:mx-0">AI & Data Science Graduate | Applied AI Engineer</p>
+                    <p class="text-slate-400 max-w-2xl mx-auto md:mx-0 mb-8">
+                        Hands-on experience in building and deploying production-grade LLM applications and automation tools. Eager to apply my expertise to challenging software engineering roles.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
+                         <button id="contact-me-button" class="bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-8 rounded-full transition-transform duration-300 inline-block transform hover:scale-105">Contact Me</button>
+                         <button id="generate-cover-letter-button" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-8 rounded-full transition-transform duration-300 inline-block transform hover:scale-105">Generate a Cover Letter ✨</button>
+                    </div>
+                </div>
+                <div class="flex justify-center">
+                    <!-- Dynamic SVG for AI visualization -->
+                    <svg class="w-48 h-48 md:w-64 md:h-64 text-sky-400 pulse-animation" viewBox="0 0 200 200" fill="currentColor">
+                        <path d="M100 0C44.77 0 0 44.77 0 100s44.77 100 100 100 100-44.77 100-100S155.23 0 100 0zM100 180c-44.11 0-80-35.89-80-80s35.89-80 80-80 80 35.89 80 80-35.89 80-80 80zM60 70c0-5.52 4.48-10 10-10h60c5.52 0 10 4.48 10 10v60c0 5.52-4.48 10-10 10h-60c-5.52 0-10-4.48-10-10V70zM80 80h40c5.52 0 10 4.48 10 10v40c0 5.52-4.48 10-10 10h-40c-5.52 0-10-4.48-10-10V90c0-5.52 4.48-10 10-10z"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <section id="impact" class="py-16 md:py-24 bg-slate-900 bg-opacity-30">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Measurable Impact</h2>
+                    <p class="mt-4 text-lg text-slate-300 max-w-2xl mx-auto">Driving efficiency and performance through data-driven solutions at DevRev.</p>
+                </div>
+                <div class="chart-container card-base p-6">
+                    <canvas id="impactChart"></canvas>
+                </div>
+                 <p class="mt-6 text-center text-sm text-slate-400">Hover over the bars to see details. These metrics represent key improvements achieved during my role as an Applied AI Engineer.</p>
+            </div>
+        </section>
+
+        <section id="experience" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Professional Experience</h2>
+                    <p class="mt-4 text-lg text-slate-300">Click on an experience to see more details.</p>
+                </div>
+                <div class="max-w-3xl mx-auto space-y-6" id="experience-container">
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-16 md:py-24 bg-slate-900 bg-opacity-30">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Technical Skills</h2>
+                    <p class="mt-4 text-lg text-slate-300">A versatile toolkit for modern software engineering.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto" id="skills-container">
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Projects Showcase</h2>
+                    <p class="mt-4 text-lg text-slate-300">Applying concepts to build real-world solutions.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-container">
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <div id="project-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-backdrop">
+        <div class="card-base w-full max-w-2xl p-6 md:p-8 relative transform scale-95 modal-content">
+            <button id="modal-close-button" class="absolute top-4 right-4 text-slate-400 hover:text-white text-3xl">&times;</button>
+            <h3 id="modal-title" class="text-2xl font-bold text-white mb-4"></h3>
+            <p id="modal-description" class="text-slate-300 mb-4"></p>
+            <div id="modal-tags" class="flex flex-wrap gap-2"></div>
+        </div>
+    </div>
+
+    <div id="contact-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-backdrop">
+        <div class="card-base w-full max-w-sm p-6 md:p-8 relative transform scale-95 modal-content text-center">
+            <button id="contact-close-button" class="absolute top-4 right-4 text-slate-400 hover:text-white text-3xl">&times;</button>
+            <h3 class="text-2xl font-bold text-white mb-4">Contact Aparna</h3>
+            <p class="text-slate-300 mb-4">Feel free to reach out via email or phone.</p>
+            <div class="space-y-4">
+                <a href="mailto:raparna678@gmail.com" class="block bg-slate-700 hover:bg-slate-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2">
+                    <i class="ph ph-envelope text-xl"></i>
+                    <span>raparna678@gmail.com</span>
+                </a>
+                <a href="tel:+916382817945" class="block bg-slate-700 hover:bg-slate-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2">
+                    <i class="ph ph-phone text-xl"></i>
+                    <span>+91 6382817945</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="cover-letter-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-backdrop">
+        <div class="card-base w-full max-w-2xl p-6 md:p-8 relative transform scale-95 modal-content">
+            <button id="cover-letter-close-button" class="absolute top-4 right-4 text-slate-400 hover:text-white text-3xl">&times;</button>
+            <h3 class="text-2xl font-bold text-white mb-4">AI Cover Letter Generator</h3>
+            <p class="text-slate-300 mb-4">Paste a job description below to generate a custom cover letter based on my experience and projects.</p>
+            <textarea id="job-description-input" class="w-full h-40 p-4 border rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-sky-500 bg-slate-800 text-white" placeholder="Paste job description here..."></textarea>
+            <div class="flex items-center gap-4 mt-4">
+                <button id="generate-button" class="bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-6 rounded-full transition-colors flex items-center justify-center">
+                    <span>Generate ✨</span>
+                    <div id="spinner" class="spinner ml-2 hidden"></div>
+                </button>
+                <button id="copy-button" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 px-6 rounded-full transition-colors flex items-center justify-center hidden">
+                    <i class="ph ph-copy text-xl mr-2"></i>
+                    <span>Copy to Clipboard</span>
+                </button>
+            </div>
+            <div id="cover-letter-output" class="bg-slate-800 p-6 rounded-lg mt-6 hidden whitespace-pre-wrap text-white"></div>
+        </div>
+    </div>
+
+    <footer class="bg-slate-900 bg-opacity-50 text-white py-12">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-lg font-semibold">Aparna R</p>
+            <p class="mt-2 text-slate-400">Salem, Tamil Nadu</p>
+            <p class="mt-1 text-slate-400"><a href="tel:+916382817945">6382817945</a> | <a href="mailto:raparna678@gmail.com" class="hover:text-sky-300">raparna678@gmail.com</a></p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            const experienceData = [
+                {
+                    role: 'Applied AI Engineer – Support Intern',
+                    company: 'DevRev',
+                    period: 'Sep 2024 - Aug 2025',
+                    location: 'Chennai, Tamil Nadu',
+                    details: [
+                        'Engineered and deployed internal automation tools and production-grade Snap-ins using React and TypeScript, significantly improving operational workflows.',
+                        'Spearheaded critical support operations for Razorpay during a high-priority 4-month engagement, serving as the primary escalation point.',
+                        'Integrated REST APIs within DevRev’s platform to automate support processes, leading to a 4-0% reduction in ticket resolution time.',
+                        'Formulated scalable logic for dynamic ticket routing and customer-tier-based workflows, improving accuracy by 35%.',
+                        'Collaborated closely with product and engineering teams, delivering tailored automation solutions and real-time support insights.'
+                    ]
+                },
+                {
+                    role: 'Web Development Intern',
+                    company: 'AICTE',
+                    period: 'Sep 2023 - Oct 2023',
+                    location: 'Remote',
+                    details: [
+                        'Developed and optimized responsive websites using HTML, CSS, JavaScript, and React to enhance user engagement.',
+                        'Assisted in implementing new user interface features and conducted debugging to ensure a seamless experience across various platforms.'
+                    ]
+                },
+                {
+                    role: 'Salesforce Developer Intern',
+                    company: 'SmartInternz (with Salesforce)',
+                    period: 'Nov 2023 - Dec 2023',
+                    location: 'Remote',
+                    details: [
+                        'Gained hands-on exposure to Lightning components, Apex basics, and CRM workflows through guided sandbox projects.',
+                        'Explored ways to customize Salesforce features to support business processes and improve team collaboration.',
+                    ]
+                }
+            ];
+
+            const experienceContainer = document.getElementById('experience-container');
+            experienceData.forEach(item => {
+                const experienceCard = document.createElement('div');
+                experienceCard.className = 'card-base p-6 cursor-pointer card-hover';
+                experienceCard.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl font-bold text-white">${item.role}</h3>
+                            <p class="text-md font-semibold text-sky-400">${item.company}</p>
+                            <p class="text-sm text-slate-400 mt-1">${item.period} | ${item.location}</p>
+                        </div>
+                        <div class="text-slate-400 text-2xl transform transition-transform duration-300 chevron">▼</div>
+                    </div>
+                    <div class="mt-4 text-slate-300 space-y-2 hidden details">
+                        ${item.details.map(d => `<p class="flex items-start"><span class="text-sky-500 mr-3 mt-1">▪</span><span>${d}</span></p>`).join('')}
+                    </div>
+                `;
+                experienceContainer.appendChild(experienceCard);
+
+                experienceCard.addEventListener('click', () => {
+                    experienceCard.querySelector('.details').classList.toggle('hidden');
+                    experienceCard.querySelector('.chevron').classList.toggle('rotate-180');
+                });
+            });
+
+            const skillsData = {
+                'Languages & Databases': ['Java', 'Python', 'TypeScript', 'JavaScript', 'MySQL'],
+                'Web Development': ['React', 'HTML', 'CSS', 'Node.js', 'REST APIs'],
+                'AI/ML': ['Machine Learning', 'RAG', 'LLM Application Dev', 'QLoRA'],
+                'Tools & Methods': ['Git', 'Agile Methodology', 'Figma', 'Data Structures']
+            };
+
+            const skillsIcons = {
+                'Languages & Databases': 'code',
+                'Web Development': 'browser',
+                'AI/ML': 'brain',
+                'Tools & Methods': 'toolbox'
+            };
+
+            const skillsContainer = document.getElementById('skills-container');
+            for (const category in skillsData) {
+                const skillCard = document.createElement('div');
+                skillCard.className = 'card-base p-6 card-hover';
+                let skillsHTML = `<h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                    <i class="ph ph-${skillsIcons[category]} text-sky-400"></i>
+                    <span>${category}</span>
+                </h3><ul class="space-y-2">`;
+                skillsData[category].forEach(skill => {
+                    skillsHTML += `<li class="flex items-center text-slate-300"><span class="text-sky-400 mr-2">◆</span>${skill}</li>`;
+                });
+                skillsHTML += '</ul>';
+                skillCard.innerHTML = skillsHTML;
+                skillsContainer.appendChild(skillCard);
+            }
+
+            const projectsData = [
+                { title: 'Soul Changer Bot', description: 'AI chatbot using LLaMA3 + QLoRA to support Gen Z mental wellness with empathetic, context-aware responses.', tags: ['LLM', 'AI', 'Python', 'QLoRA'] },
+                { title: 'News Research Tool', description: 'LLM-based tool for Q&A from URLs using FAISS and RAG, enabling fast, contextual insight extraction.', tags: ['RAG', 'FAISS', 'LLM', 'Python'] },
+                { title: 'Cuttify – Full-Stack Project', description: 'Created a feature-rich, full-stack link management tool with user authentication and analytics.', tags: ['Full-Stack', 'React', 'Node.js', 'MongoDB'] },
+                { title: 'Career Guidance Website', description: 'Built a responsive web app to help students explore career paths based on interests and skills. (GDSC Hackathon)', tags: ['React', 'Web App', 'Hackathon'] },
+                { title: 'Virtual Mouse using OpenCV', description: 'Implemented a system that allows hand-gesture-based mouse control using Python and OpenCV.', tags: ['OpenCV', 'Python', 'Computer Vision'] },
+                { title: 'Online Code Editor', description: 'Developed a real-time collaborative code editor with HTML/CSS/JS and backend support.', tags: ['WebSockets', 'Node.js', 'Collaboration'] }
+            ];
+
+            const projectsContainer = document.getElementById('projects-container');
+            const projectModal = document.getElementById('project-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalDescription = document.getElementById('modal-description');
+            const modalTags = document.getElementById('modal-tags');
+            const projectModalCloseButton = document.getElementById('modal-close-button');
+
+            projectsData.forEach(project => {
+                const projectCard = document.createElement('div');
+                projectCard.className = 'card-base p-6 cursor-pointer card-hover';
+                projectCard.innerHTML = `
+                    <h3 class="text-xl font-bold text-white">${project.title}</h3>
+                    <p class="text-slate-300 mt-2 h-20 overflow-hidden">${project.description}</p>
+                    <div class="flex flex-wrap gap-2 mt-4">
+                        ${project.tags.map(tag => `<span class="bg-sky-500 text-white text-xs font-semibold px-2.5 py-0.5 rounded-full">${tag}</span>`).join('')}
+                    </div>
+                `;
+                projectsContainer.appendChild(projectCard);
+
+                projectCard.addEventListener('click', () => {
+                    modalTitle.textContent = project.title;
+                    modalDescription.textContent = project.description;
+                    modalTags.innerHTML = project.tags.map(tag => `<span class="bg-sky-400 text-white text-sm font-medium px-3 py-1 rounded-full">${tag}</span>`).join('');
+                    projectModal.classList.remove('hidden');
+                    projectModal.classList.add('flex');
+                });
+            });
+
+            const closeProjectModal = () => {
+                projectModal.classList.add('hidden');
+                projectModal.classList.remove('flex');
+            };
+
+            projectModalCloseButton.addEventListener('click', closeProjectModal);
+            projectModal.addEventListener('click', (e) => {
+                if (e.target === projectModal) {
+                    closeProjectModal();
+                }
+            });
+
+            const contactMeButton = document.getElementById('contact-me-button');
+            const contactModal = document.getElementById('contact-modal');
+            const contactCloseButton = document.getElementById('contact-close-button');
+
+            contactMeButton.addEventListener('click', () => {
+                contactModal.classList.remove('hidden');
+                contactModal.classList.add('flex');
+            });
+
+            const closeContactModal = () => {
+                contactModal.classList.add('hidden');
+                contactModal.classList.remove('flex');
+            };
+
+            contactCloseButton.addEventListener('click', closeContactModal);
+            contactModal.addEventListener('click', (e) => {
+                if (e.target === contactModal) {
+                    closeContactModal();
+                }
+            });
+            
+            // --- New Cover Letter Generator Logic ---
+            const coverLetterModal = document.getElementById('cover-letter-modal');
+            const generateCoverLetterButton = document.getElementById('generate-cover-letter-button');
+            const coverLetterCloseButton = document.getElementById('cover-letter-close-button');
+            const jobDescriptionInput = document.getElementById('job-description-input');
+            const generateButton = document.getElementById('generate-button');
+            const spinner = document.getElementById('spinner');
+            const coverLetterOutput = document.getElementById('cover-letter-output');
+            const copyButton = document.getElementById('copy-button');
+
+            const portfolioData = `
+                My name is Aparna R, an AI and Data Science graduate and Applied AI Engineer with a strong background in full-stack development. I have hands-on experience in building and deploying production-grade LLM applications and automation tools.
+
+                Key Skills:
+                - Languages & Databases: Java, Python, TypeScript, JavaScript, MySQL
+                - Web Development: React, HTML, CSS, Node.js, REST APIs
+                - AI/ML: Machine Learning, RAG, LLM Application Development, QLoRA
+                - Tools & Methods: Git, Agile Methodology, Figma, Data Structures
+
+                Key Projects:
+                1. Soul Changer Bot: An AI chatbot using LLaMA3 + QLoRA to support Gen Z mental wellness with empathetic, context-aware responses.
+                2. News Research Tool: An LLM-based tool for Q&A from URLs using FAISS and RAG, enabling fast, contextual insight extraction.
+                3. Cuttify – Full-Stack Project: A feature-rich, full-stack link management tool with user authentication and analytics.
+                4. Career Guidance Website: A responsive web app to help students explore career paths based on interests and skills. (GDSC Hackathon)
+                5. Virtual Mouse using OpenCV: A system that allows hand-gesture-based mouse control using Python and OpenCV.
+                6. Online Code Editor: A real-time collaborative code editor with HTML/CSS/JS and backend support.
+
+                Work Experience:
+                - Applied AI Engineer – Support Intern at DevRev (Sep 2024 - Aug 2025): Engineered and deployed internal automation tools and production-grade Snap-ins using React and TypeScript, integrated REST APIs to automate support processes, leading to a 40% reduction in ticket resolution time. Formulated scalable logic for dynamic ticket routing.
+                - Web Development Intern at AICTE (Sep 2023 - Oct 2023): Developed and optimized responsive websites using HTML, CSS, JavaScript, and React.
+                - Salesforce Developer Intern at SmartInternz (with Salesforce) (Nov 2023 - Dec 2023): Gained hands-on exposure to Lightning components, Apex basics, and CRM workflows.
+            `;
+
+            generateCoverLetterButton.addEventListener('click', () => {
+                coverLetterModal.classList.remove('hidden');
+                coverLetterModal.classList.add('flex');
+            });
+
+            coverLetterCloseButton.addEventListener('click', () => {
+                coverLetterModal.classList.add('hidden');
+                coverLetterModal.classList.remove('flex');
+                coverLetterOutput.classList.add('hidden');
+                copyButton.classList.add('hidden');
+                jobDescriptionInput.value = '';
+            });
+
+            generateButton.addEventListener('click', async () => {
+                const jobDescription = jobDescriptionInput.value;
+                if (jobDescription.trim() === "") return;
+
+                spinner.classList.remove('hidden');
+                generateButton.disabled = true;
+                coverLetterOutput.classList.add('hidden');
+                copyButton.classList.add('hidden');
+
+                const systemPrompt = `
+                    You are a world-class career assistant. Your task is to write a professional cover letter for a candidate named Aparna R, applying for a software engineering role. The cover letter should be tailored to the provided job description, highlighting relevant skills and experiences from Aparna's portfolio. The tone should be formal, confident, and professional. The cover letter should be no longer than 3 paragraphs. Do not use placeholders like [Hiring Manager Name] or [Company Name]. Refer to her as Aparna R. Ensure the cover letter is written from Aparna's perspective ("I"). The response should be only the cover letter text, with no additional commentary.
+                `;
+
+                const userQuery = `
+                    Here is Aparna R's portfolio summary:
+                    ${portfolioData}
+
+                    Here is the job description:
+                    ${jobDescription}
+
+                    Please write a professional cover letter based on this information.
+                `;
+
+                const payload = {
+                    contents: [{ parts: [{ text: userQuery }] }],
+                    systemInstruction: {
+                        parts: [{ text: systemPrompt }]
+                    },
+                };
+                
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                let retries = 0;
+                const maxRetries = 3;
+                const initialDelay = 1000;
+
+                const makeApiCall = async () => {
+                    try {
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (!response.ok) {
+                            if (response.status === 429 && retries < maxRetries) {
+                                const delay = initialDelay * Math.pow(2, retries);
+                                retries++;
+                                await new Promise(resolve => setTimeout(resolve, delay));
+                                return makeApiCall();
+                            }
+                            throw new Error(`API call failed with status: ${response.status}`);
+                        }
+
+                        const result = await response.json();
+                        const generatedText = result?.candidates?.[0]?.content?.parts?.[0]?.text || "No content generated. Please try again.";
+                        
+                        coverLetterOutput.textContent = generatedText;
+                        coverLetterOutput.classList.remove('hidden');
+                        copyButton.classList.remove('hidden');
+
+                    } catch (error) {
+                        console.error('Error generating cover letter:', error);
+                        coverLetterOutput.textContent = "An error occurred. Please try again.";
+                        coverLetterOutput.classList.remove('hidden');
+                    } finally {
+                        spinner.classList.add('hidden');
+                        generateButton.disabled = false;
+                    }
+                };
+
+                makeApiCall();
+            });
+
+            copyButton.addEventListener('click', () => {
+                 if (coverLetterOutput.textContent) {
+                    const el = document.createElement('textarea');
+                    el.value = coverLetterOutput.textContent;
+                    document.body.appendChild(el);
+                    el.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(el);
+                    
+                    const originalText = copyButton.innerHTML;
+                    copyButton.innerHTML = '<i class="ph ph-check text-xl mr-2"></i><span>Copied!</span>';
+                    setTimeout(() => {
+                        copyButton.innerHTML = originalText;
+                    }, 2000);
+                }
+            });
+
+            // --- Existing Chart.js Logic ---
+            const ctx = document.getElementById('impactChart').getContext('2d');
+            const impactChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Ticket Resolution Time', 'Resolution Speed', 'Routing Accuracy'],
+                    datasets: [{
+                        label: 'Improvement (%)',
+                        data: [40, 50, 35],
+                        backgroundColor: [
+                            'rgba(14, 165, 233, 0.6)',
+                            'rgba(56, 189, 248, 0.6)',
+                            'rgba(125, 211, 252, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(14, 165, 233, 1)',
+                            'rgba(56, 189, 248, 1)',
+                            'rgba(125, 211, 252, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Percentage Improvement (%)',
+                                color: '#cbd5e1'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#94a3b8'
+                            }
+                        },
+                        x: {
+                           grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#94a3b8'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
